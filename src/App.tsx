@@ -1,9 +1,10 @@
 import './App.css';
+import SignInSide from './components/SignInSide.tsx';
 
 function App() {
     return (
         <>
-            <h1 className={'text-3xl text-red-700'}>Avalanche Alert</h1>
+            <SignInSide />
         </>
     );
 }
