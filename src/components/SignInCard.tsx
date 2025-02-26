@@ -86,7 +86,7 @@ export default function SignInCard() {
                 sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}
             >
                 <AreaDropdown />
-                <Divider>or</Divider>
+                <Divider>Enter Mail and/or Phone </Divider>
                 <FormControl>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <TextField
