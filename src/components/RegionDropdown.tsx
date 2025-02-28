@@ -3,12 +3,14 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useEffect, useState } from 'react';
-import { AvalancheReportAPI } from '../utilities/avalancheReportAPI.ts';
 import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
 
-export default function RegionDropdown() {
+interface RegionDropdownProps {
+    reports: AvalancheReport[];
+}
+
+const RegionDropdown: React.FC<RegionDropdownProps> = ({ reports }) => {
     const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
-    const [reports, setReports] = useState<AvalancheReport[]>([]);
     const [availableRegions, setAvailableRegions] = useState<{ name: string; regionID: string }[]>([]);
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
@@ -20,19 +22,6 @@ export default function RegionDropdown() {
         console.log('Extracted Regions:', extractedRegions);
         setAvailableRegions(extractedRegions);
     };
-
-    useEffect(() => {
-        const fetchAvalancheDataForAustria = async () => {
-            try {
-                const avalancheData = await AvalancheReportAPI.fetchLatestAvalancheReportsFromAustria();
-                console.log('Fetched Avalanche Data:', avalancheData);
-                setReports(avalancheData);
-            } catch (error: any) {
-                console.error('Error fetching avalanche data:', error);
-            }
-        };
-        fetchAvalancheDataForAustria();
-    }, []);
 
     useEffect(() => {
         if (reports.length > 0) {
@@ -57,4 +46,6 @@ export default function RegionDropdown() {
             </Select>
         </FormControl>
     );
-}
+};
+
+export default RegionDropdown;

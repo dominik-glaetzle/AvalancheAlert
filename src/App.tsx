@@ -1,10 +1,10 @@
 import './App.css';
-import SignInSide from './components/SignInSide.tsx';
+import Page from './components/Page.tsx';
 
 function App() {
     return (
         <>
-            <SignInSide />
+            <Page />
         </>
     );
 }

@@ -8,8 +8,10 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
-import AreaDropdown from './AreaDropdown.tsx';
+import { useEffect, useState } from 'react';
+import RegionDropdown from './RegionDropdown.tsx';
+import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
+import { AvalancheReportAPI } from '../utilities/avalancheReportAPI.ts';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -32,6 +34,20 @@ export default function SignInCard() {
     const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
     const [phoneError, setPhoneError] = useState(false);
     const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+
+    const [reports, setReports] = useState<AvalancheReport[]>([]);
+
+    useEffect(() => {
+        const fetchAvalancheDataForAustria = async () => {
+            try {
+                const avalancheData = await AvalancheReportAPI.fetchLatestAvalancheReportsFromAustria();
+                setReports(avalancheData);
+            } catch (error: any) {
+                console.error('Error fetching avalanche data:', error);
+            }
+        };
+        fetchAvalancheDataForAustria();
+    }, []);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         if (emailError || phoneError) {
@@ -85,7 +101,7 @@ export default function SignInCard() {
                 noValidate
                 sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}
             >
-                <AreaDropdown />
+                <RegionDropdown reports={reports} />
                 <Divider>Enter Mail and/or Phone </Divider>
                 <FormControl>
                     <FormLabel htmlFor="email">Email</FormLabel>

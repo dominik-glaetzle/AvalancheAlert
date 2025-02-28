@@ -5,7 +5,7 @@ import ColorModeSelect from './ColorModeSelect.tsx';
 import SignInCard from './SignInCard.tsx';
 import Content from './Content.tsx';
 
-export default function SignInSide(props: { disableCustomTheme?: boolean }) {
+export default function Page(props: { disableCustomTheme?: boolean }) {
     return (
         <AppTheme {...props}>
             <CssBaseline enableColorScheme />
