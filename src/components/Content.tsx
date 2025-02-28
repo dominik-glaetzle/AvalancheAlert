@@ -9,7 +9,7 @@ import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsAct
 const items = [
     {
         icon: <WarningAmberRoundedIcon sx={{ color: 'text.secondary' }} />,
-        title: 'Live Avalanche Warnings',
+        title: 'Live AvalancheReport Warnings',
         description: 'Receive daily avalanche warnings for your selected ski resorts.',
     },
     {

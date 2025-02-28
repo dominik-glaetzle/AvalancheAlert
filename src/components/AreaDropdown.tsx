@@ -1,34 +1,55 @@
-import * as React from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-// dummy api response
-const regions = [
-    { name: 'Glocknergruppe', regionID: 'AT-07-26' },
-    { name: 'Östliche Deferegger Alpen', regionID: 'AT-07-27' },
-    { name: 'Schobergruppe', regionID: 'AT-07-28' },
-    { name: 'Grödner Dolomiten', regionID: 'IT-32-BZ-18-02' },
-    { name: 'Sextner Dolomiten', regionID: 'IT-32-BZ-20' },
-];
-
-const filteredRegions = regions.filter((region) => region.regionID.startsWith('AT-'));
+import { useEffect, useState } from 'react';
+import { AvalancheReportAPI } from '../utilities/avalancheReportAPI.ts';
+import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
 
 export default function RegionDropdown() {
-    const [selectedRegion, setSelectedRegion] = React.useState('');
+    const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+    const [reports, setReports] = useState<AvalancheReport[]>([]);
+    const [availableRegions, setAvailableRegions] = useState<{ name: string; regionID: string }[]>([]);
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setSelectedRegion(event.target.value);
+    const handleChange = (event: SelectChangeEvent<string[]>) => {
+        setSelectedRegions(event.target.value as string[]);
     };
 
-    console.log('sel reg:', selectedRegion);
+    const extractRegionsFromReports = (reports: AvalancheReport[]) => {
+        const extractedRegions = reports.flatMap((report) => report.regions);
+        console.log('Extracted Regions:', extractedRegions);
+        setAvailableRegions(extractedRegions);
+    };
 
+    useEffect(() => {
+        const fetchAvalancheDataForAustria = async () => {
+            try {
+                const avalancheData = await AvalancheReportAPI.fetchLatestAvalancheReportsFromAustria();
+                console.log('Fetched Avalanche Data:', avalancheData);
+                setReports(avalancheData);
+            } catch (error: any) {
+                console.error('Error fetching avalanche data:', error);
+            }
+        };
+        fetchAvalancheDataForAustria();
+    }, []);
+
+    useEffect(() => {
+        if (reports.length > 0) {
+            extractRegionsFromReports(reports);
+        }
+    }, [reports]);
     return (
         <FormControl sx={{ width: 380 }}>
             <InputLabel id="region-select-label">Choose Region</InputLabel>
-            <Select labelId="region-select-label" id="region-select" value={selectedRegion} onChange={handleChange}>
-                {filteredRegions.map((region) => (
+            <Select
+                labelId="region-select-label"
+                id="region-select"
+                value={selectedRegions}
+                onChange={handleChange}
+                multiple
+            >
+                {availableRegions.map((region) => (
                     <MenuItem key={region.regionID} value={region.regionID}>
                         {region.name}
                     </MenuItem>
