@@ -34,9 +34,25 @@ export default function SignInCard() {
     const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
     const [phoneError, setPhoneError] = useState(false);
     const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
 
     const [reports, setReports] = useState<AvalancheReport[]>([]);
+    const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+    const [filteredReports, setFilteredReports] = useState<AvalancheReport[]>([]);
 
+    const handleRegionChange = (selected: string[]) => {
+        setSelectedRegions(selected);
+        console.log('Selected Regions:', selected);
+    };
+
+    const getSelectedReports = (regions: string[]): AvalancheReport[] => {
+        return reports.filter((report: AvalancheReport) =>
+            report.regions.some((region) => regions.some((selectedRegion) => selectedRegion === region.regionID))
+        );
+    };
+
+    // get complete avalanche data from api and store it
     useEffect(() => {
         const fetchAvalancheDataForAustria = async () => {
             try {
@@ -49,16 +65,18 @@ export default function SignInCard() {
         fetchAvalancheDataForAustria();
     }, []);
 
+    // get only the reports from the selected regions and store it
+    useEffect(() => {
+        const selectedReports = getSelectedReports(selectedRegions);
+        setFilteredReports(selectedReports);
+        console.log('filtered reports: ', filteredReports);
+    }, [selectedRegions, reports]);
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         if (emailError || phoneError) {
             event.preventDefault();
             return;
         }
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            telephone: data.get('telephone'),
-        });
     };
 
     const validateInputs = () => {
@@ -67,26 +85,47 @@ export default function SignInCard() {
 
         let isValid = true;
 
-        if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-            setEmailError(true);
-            setEmailErrorMessage('Please enter a valid email address.');
-            isValid = false;
-        } else {
-            setEmailError(false);
-            setEmailErrorMessage('');
-        }
-
+        const emailRegex = /\S+@\S+\.\S+/;
         const phoneRegex = /^\+?[0-9\s\-()]{7,15}$/;
 
-        if (!telephone.value || !phoneRegex.test(telephone.value)) {
+        const emailValue = email.value.trim();
+        const phoneValue = telephone.value.trim();
+
+        if (emailValue === '' && phoneValue === '') {
+            setEmailError(true);
+            setEmailErrorMessage('Please enter either an email or a phone number.');
             setPhoneError(true);
-            setPhoneErrorMessage('Please enter a valid phone number.');
+            setPhoneErrorMessage('Please enter either an email or a phone number.');
             isValid = false;
         } else {
-            setPhoneError(false);
-            setPhoneErrorMessage('');
-        }
+            if (emailValue !== '') {
+                if (!emailRegex.test(emailValue)) {
+                    setEmailError(true);
+                    setEmailErrorMessage('Please enter a valid email address.');
+                    isValid = false;
+                } else {
+                    setEmailError(false);
+                    setEmailErrorMessage('');
+                }
+            } else {
+                setEmailError(false);
+                setEmailErrorMessage('');
+            }
 
+            if (phoneValue !== '') {
+                if (!phoneRegex.test(phoneValue)) {
+                    setPhoneError(true);
+                    setPhoneErrorMessage('Please enter a valid phone number.');
+                    isValid = false;
+                } else {
+                    setPhoneError(false);
+                    setPhoneErrorMessage('');
+                }
+            } else {
+                setPhoneError(false);
+                setPhoneErrorMessage('');
+            }
+        }
         return isValid;
     };
 
@@ -101,7 +140,7 @@ export default function SignInCard() {
                 noValidate
                 sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}
             >
-                <RegionDropdown reports={reports} />
+                <RegionDropdown reports={reports} onSelectionChange={handleRegionChange} />
                 <Divider>Enter Mail and/or Phone </Divider>
                 <FormControl>
                     <FormLabel htmlFor="email">Email</FormLabel>
@@ -111,6 +150,8 @@ export default function SignInCard() {
                         id="email"
                         type="email"
                         name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
                         autoComplete="email"
                         autoFocus
@@ -121,11 +162,13 @@ export default function SignInCard() {
                     />
                 </FormControl>
                 <FormControl>
-                    <FormLabel htmlFor="password">Phone</FormLabel>
+                    <FormLabel htmlFor="telephone">Phone</FormLabel>
                     <TextField
                         error={phoneError}
                         helperText={phoneErrorMessage}
                         name="telephone"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         placeholder="+43-123-456"
                         type="telephone"
                         id="telephone"

@@ -7,19 +7,22 @@ import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
 
 interface RegionDropdownProps {
     reports: AvalancheReport[];
+    onSelectionChange: (selected: string[]) => void;
 }
 
-const RegionDropdown: React.FC<RegionDropdownProps> = ({ reports }) => {
+const RegionDropdown: React.FC<RegionDropdownProps> = ({ reports, onSelectionChange }) => {
     const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
     const [availableRegions, setAvailableRegions] = useState<{ name: string; regionID: string }[]>([]);
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
-        setSelectedRegions(event.target.value as string[]);
+        const selected = event.target.value as string[];
+        setSelectedRegions(selected);
+        onSelectionChange(selected);
     };
 
     const extractRegionsFromReports = (reports: AvalancheReport[]) => {
         const extractedRegions = reports.flatMap((report) => report.regions);
-        console.log('Extracted Regions:', extractedRegions);
+        //console.log('Extracted Regions:', extractedRegions);
         setAvailableRegions(extractedRegions);
     };
 
@@ -29,7 +32,7 @@ const RegionDropdown: React.FC<RegionDropdownProps> = ({ reports }) => {
         }
     }, [reports]);
     return (
-        <FormControl sx={{ width: 380 }}>
+        <FormControl>
             <InputLabel id="region-select-label">Choose Region</InputLabel>
             <Select
                 labelId="region-select-label"
