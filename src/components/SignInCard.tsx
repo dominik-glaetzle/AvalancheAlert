@@ -43,7 +43,6 @@ export default function SignInCard() {
 
     const handleRegionChange = (selected: string[]) => {
         setSelectedRegions(selected);
-        console.log('Selected Regions:', selected);
     };
 
     const getSelectedReports = (regions: string[]): AvalancheReport[] => {
@@ -51,6 +50,7 @@ export default function SignInCard() {
             report.regions.some((region) => regions.some((selectedRegion) => selectedRegion === region.regionID))
         );
     };
+    // fehler nicht in region dropdown und wird auch richtig im state gesetzt??
 
     // get complete avalanche data from api and store it
     useEffect(() => {
@@ -65,11 +65,12 @@ export default function SignInCard() {
         fetchAvalancheDataForAustria();
     }, []);
 
+    console.log(filteredReports); // send those to the backend :))
+
     // get only the reports from the selected regions and store it
     useEffect(() => {
         const selectedReports = getSelectedReports(selectedRegions);
         setFilteredReports(selectedReports);
-        console.log('filtered reports: ', filteredReports);
     }, [selectedRegions, reports]);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

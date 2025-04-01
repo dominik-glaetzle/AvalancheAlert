@@ -1,9 +1,9 @@
+import React, { useEffect, useState } from 'react';
+import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useEffect, useState } from 'react';
-import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
 
 interface RegionDropdownProps {
     reports: AvalancheReport[];
@@ -19,6 +19,7 @@ const RegionDropdown: React.FC<RegionDropdownProps> = ({ reports, onSelectionCha
         setSelectedRegions(selected);
         onSelectionChange(selected);
     };
+    //console.log('selectedRegions', selectedRegions);
 
     const extractRegionsFromReports = (reports: AvalancheReport[]) => {
         const extractedRegions = reports.flatMap((report) => report.regions);
