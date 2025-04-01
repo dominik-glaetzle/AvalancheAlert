@@ -1,10 +1,12 @@
 import './App.css';
-import SignInSide from './components/SignInSide.tsx';
+import Page from './components/Page.tsx';
+import { AnimatedBackground } from 'animated-backgrounds';
 
 function App() {
     return (
         <>
-            <SignInSide />
+            <AnimatedBackground animationName={'cosmicDust'} />
+            <Page />
         </>
     );
 }
