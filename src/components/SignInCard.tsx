@@ -12,6 +12,10 @@ import { useEffect, useState } from 'react';
 import RegionDropdown from './RegionDropdown.tsx';
 import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
 import { AvalancheReportAPI } from '../utilities/avalancheReportAPI.ts';
+import { saveSubscription } from '../appwrite.ts';
+import { Snackbar } from '@mui/material';
+import Alert from '@mui/material/Alert';
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -41,6 +45,9 @@ export default function SignInCard() {
     const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
     const [filteredReports, setFilteredReports] = useState<AvalancheReport[]>([]);
 
+    const [successMessageOpen, setSuccessMessageOpen] = useState(false);
+
+
     const handleRegionChange = (selected: string[]) => {
         setSelectedRegions(selected);
     };
@@ -50,7 +57,6 @@ export default function SignInCard() {
             report.regions.some((region) => regions.some((selectedRegion) => selectedRegion === region.regionID))
         );
     };
-    // fehler nicht in region dropdown und wird auch richtig im state gesetzt??
 
     // get complete avalanche data from api and store it
     useEffect(() => {
@@ -65,7 +71,7 @@ export default function SignInCard() {
         fetchAvalancheDataForAustria();
     }, []);
 
-    console.log(filteredReports); // send those to the backend :))
+    //console.log(filteredReports); // process before sending via email
 
     // get only the reports from the selected regions and store it
     useEffect(() => {
@@ -74,10 +80,21 @@ export default function SignInCard() {
     }, [selectedRegions, reports]);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
         if (emailError || phoneError) {
-            event.preventDefault();
             return;
         }
+
+        saveSubscription({
+            email,
+            phone,
+            regions: selectedRegions,
+        }).then(() => {
+            setSuccessMessageOpen(true);
+        }).catch((error) => {
+            console.error('Error saving subscription:', error);
+        });
     };
 
     const validateInputs = () => {
@@ -131,6 +148,7 @@ export default function SignInCard() {
     };
 
     return (
+        <>
         <Card variant="outlined">
             <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
                 Sign Up
@@ -184,8 +202,17 @@ export default function SignInCard() {
                     Sign Up for Avalanche News! 🏂
                 </Button>
             </Box>
-
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>put some cool stuff in here</Box>
         </Card>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                open={successMessageOpen}
+                autoHideDuration={2000}
+                onClose={() => setSuccessMessageOpen(false)}
+            >
+                <Alert  severity="info" sx={{ width: '100%' }}>
+                    Successfully subscribed!
+                </Alert>
+            </Snackbar>
+        </>
     );
 }
