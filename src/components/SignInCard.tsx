@@ -71,7 +71,7 @@ export default function SignInCard() {
         fetchAvalancheDataForAustria();
     }, []);
 
-    console.log(filteredReports); // process before sending via email
+    //console.log(filteredReports); // process before sending via email
 
     // get only the reports from the selected regions and store it
     useEffect(() => {
@@ -80,22 +80,21 @@ export default function SignInCard() {
     }, [selectedRegions, reports]);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
         if (emailError || phoneError) {
-            event.preventDefault();
             return;
         }
-        console.log('email', email);
-        
+
         saveSubscription({
-            'email': email,
-            'phone': phone,
-            'regions': selectedRegions,
+            email,
+            phone,
+            regions: selectedRegions,
         }).then(() => {
             setSuccessMessageOpen(true);
-        })
-            .catch((error) => {
-                console.error('Error saving subscription:', error);
-            });
+        }).catch((error) => {
+            console.error('Error saving subscription:', error);
+        });
     };
 
     const validateInputs = () => {
@@ -203,15 +202,14 @@ export default function SignInCard() {
                     Sign Up for Avalanche News! 🏂
                 </Button>
             </Box>
-
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>put some cool stuff in here</Box>
         </Card>
             <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
                 open={successMessageOpen}
-                autoHideDuration={3000}
+                autoHideDuration={2000}
                 onClose={() => setSuccessMessageOpen(false)}
             >
-                <Alert onClose={() => setSuccessMessageOpen(false)} severity="success" sx={{ width: '100%' }}>
+                <Alert  severity="info" sx={{ width: '100%' }}>
                     Successfully subscribed!
                 </Alert>
             </Snackbar>

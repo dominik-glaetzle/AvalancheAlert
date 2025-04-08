@@ -1,10 +1,16 @@
 import { Client, Databases, ID } from 'appwrite';
 
-const client = new Client()
-    .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-    .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID);
+const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID;
+const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
+const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
 
-const databases = new Databases(client);
+
+
+const client = new Client()
+    .setEndpoint('https://cloud.appwrite.io/v1')
+    .setProject(PROJECT_ID);
+
+const database = new Databases(client);
 
 interface SubscriptionData {
     email?: string;
@@ -13,7 +19,7 @@ interface SubscriptionData {
 }
 
 /**
- * Save new subsription to appwrite database
+ * Save new subscription to appwrite database
  */
 export const saveSubscription = async (data: SubscriptionData) => {
     const { email, phone, regions } = data;
@@ -23,20 +29,19 @@ export const saveSubscription = async (data: SubscriptionData) => {
     }
 
     try {
-        const response = await databases.createDocument(
-            import.meta.env.VITE_APPWRITE_DATABASE_ID,
-            import.meta.env.VITE_APPWRITE_COLLECTION_ID,
-            ID.unique(),
-            {
-                email,
-                phone,
-                regions,
-            }
-        );
-        console.log('✅ Subscription saved:', response);
-        return response;
+            await database.createDocument(
+                DATABASE_ID,
+                COLLECTION_ID,
+                ID.unique(),
+                {
+                    email,
+                    phone,
+                    regions,
+                }
+            );
     } catch (error: any) {
         console.error('❌ Error saving subscription:', error.message || error);
+        alert(error.message || error);
         throw error;
     }
 };
