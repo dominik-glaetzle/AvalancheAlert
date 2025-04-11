@@ -15,6 +15,7 @@ import { createUser } from '../appwrite.ts';
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { User } from '../DTO/UserDTO.ts';
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -39,6 +40,7 @@ export default function SignInCard() {
     const [phone, setPhone] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
+    const navigate = useNavigate();
 
     const [successMessageOpen, setSuccessMessageOpen] = useState(false);
     const [errors, setErrors] = useState({
@@ -52,7 +54,7 @@ export default function SignInCard() {
     const [reports, setReports] = useState<AvalancheReport[]>([]);
     const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
     const [filteredReports, setFilteredReports] = useState<AvalancheReport[]>([]); // construct email from those
-    console.log(filteredReports)
+    console.log(filteredReports);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -78,19 +80,19 @@ export default function SignInCard() {
         if (!validateInputs()) return;
 
         if (mode === 'signup') {
-            const user = new User(
-                {firstname: firstname,
+            const user = new User({
+                firstname: firstname,
                 lastname: lastname,
                 email: email,
                 password: password,
                 phone: phone,
-                regions: selectedRegions}
-            );
+                regions: selectedRegions,
+            });
             createUser(user)
                 .then(() => setSuccessMessageOpen(true))
                 .catch((error) => console.error('Error saving subscription:', error));
         } else {
-            console.log('Login with:', email, password);
+            navigate('/dashboard');
         }
     };
 
@@ -138,7 +140,12 @@ export default function SignInCard() {
                 <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
                     Avalanche Alert
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    noValidate
+                    sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}
+                >
                     {mode === 'signup' && (
                         <>
                             <FormControl>
