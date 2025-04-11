@@ -34,7 +34,7 @@ const RegionDropdown: React.FC<RegionDropdownProps> = ({ reports, onSelectionCha
     }, [reports]);
     return (
         <FormControl>
-            <InputLabel id="region-select-label">Choose Region</InputLabel>
+            <InputLabel id="region-select-label">Choose Regions</InputLabel>
             <Select
                 labelId="region-select-label"
                 id="region-select"
