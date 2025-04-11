@@ -14,6 +14,7 @@ import { AvalancheReportAPI } from '../utilities/avalancheReportAPI.ts';
 import { createUser } from '../appwrite.ts';
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
+import { User } from '../DTO/UserDTO.ts';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -77,7 +78,15 @@ export default function SignInCard() {
         if (!validateInputs()) return;
 
         if (mode === 'signup') {
-            createUser({ firstname, lastname, password, email ,phone, regions: selectedRegions })
+            const user = new User(
+                {firstname: firstname,
+                lastname: lastname,
+                email: email,
+                password: password,
+                phone: phone,
+                regions: selectedRegions}
+            );
+            createUser(user)
                 .then(() => setSuccessMessageOpen(true))
                 .catch((error) => console.error('Error saving subscription:', error));
         } else {
