@@ -21,6 +21,8 @@ export const createUser = async (user: User) => {
         // create new appwrite user
         const newUser = await account.create(ID.unique(), email, password);
 
+        await account.deleteSessions(); // log out all sessions
+
         await account.createEmailPasswordSession(email, password!);
 
         // send verification email -> TODO: rework email template
@@ -33,7 +35,6 @@ export const createUser = async (user: User) => {
             phone,
             regions,
         });
-        alert('Account created! Please verify your email.');
     } catch (error: any) {
         console.error('❌ Error creating subscription:', error.message || error);
         alert(error.message || error);
