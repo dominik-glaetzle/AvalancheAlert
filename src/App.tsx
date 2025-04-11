@@ -1,12 +1,28 @@
 import './App.css';
 import Page from './components/Page.tsx';
 import { AnimatedBackground } from 'animated-backgrounds';
+import {
+    createBrowserRouter,
+    RouterProvider,
+    Route,
+    createRoutesFromElements,
+} from 'react-router-dom';
+import VerificationPage from './components/VerificationPage.tsx';
+
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <>
+            <Route path="/" element={<Page />} />
+            <Route path="/verify" element={<VerificationPage />} />
+        </>
+    )
+);
 
 function App() {
     return (
         <>
             <AnimatedBackground animationName={'cosmicDust'} />
-            <Page />
+            <RouterProvider router={router} />
         </>
     );
 }
