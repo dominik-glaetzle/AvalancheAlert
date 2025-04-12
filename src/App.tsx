@@ -1,16 +1,26 @@
 import './App.css';
-import Page from './components/Page.tsx';
-import { AnimatedBackground } from 'animated-backgrounds';
-import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from 'react-router-dom';
+import Homepage from './pages/Homepage.tsx';
 import VerificationPage from './components/VerificationPage.tsx';
-import Dashboard from './components/Dashboard.tsx';
+import DashboardPage from './components/DashboardPage.tsx';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
+// @ts-ignore
+import { AnimatedBackground } from 'animated-backgrounds';
+
+import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from 'react-router-dom';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route path="/" element={<Page />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="/verify" element={<VerificationPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+                        <DashboardPage />
+                    </ProtectedRoute>
+                }
+            />
         </>
     )
 );
@@ -18,7 +28,7 @@ const router = createBrowserRouter(
 function App() {
     return (
         <>
-            <AnimatedBackground animationName={'cosmicDust'} />
+            <AnimatedBackground animationName="cosmicDust" />
             <RouterProvider router={router} />
         </>
     );
