@@ -1,11 +1,11 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
-import AppTheme from './AppTheme.tsx';
-import ColorModeSelect from './ColorModeSelect.tsx';
-import SignInCard from './SignInCard.tsx';
-import Content from './Content.tsx';
+import AppTheme from '../components/AppTheme.tsx';
+import ColorModeSelect from '../components/ColorModeSelect.tsx';
+import SignInCard from '../components/SignInCard.tsx';
+import Content from '../components/Content.tsx';
 
-export default function Page(props: { disableCustomTheme?: boolean }) {
+export default function Homepage(props: { disableCustomTheme?: boolean }) {
     return (
         <AppTheme {...props}>
             <CssBaseline enableColorScheme />
