@@ -1,34 +1,68 @@
-import { Avatar, Card } from '@mui/material';
+import { Avatar, Card, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '../context/AuthContext.tsx';
 
+import HomeIcon from '@mui/icons-material/Home';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
+
 function Sidebar() {
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     return (
         <Card
-            sx={{ backgroundColor: '#D3D3D3' }}
-            variant="outlined"
-            className="bg-green-500 w-80 h-175 mt-5 ml-5 p-4 shadow"
+            className="w-80 h-[600px] p-6 shadow-lg rounded-lg mt-10 ml-10"
+            sx={{
+                backgroundColor: '#1e1e1e',
+                color: '#f5f5f5',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+            }}
         >
-            <div className="flex justify-center mb-4">
-                <Card
-                    variant="outlined"
-                    sx={{ backgroundColor: '#B0B0B0' }}
-                    className="w-72 h-[120px] flex flex-col items-center justify-center mb-6"
-                >
-                    <Avatar src="https://i.pravatar.cc/100" alt="A" sx={{ width: 56, height: 56 }} className="mb-2" />
-                    <Typography variant="h6" className="text-black">
-                        {user.name}
-                    </Typography>
-                </Card>
+            <div className="flex flex-col items-center gap-3">
+                <Avatar src="/avatar.png" alt="User Avatar" sx={{ width: 64, height: 64 }} />
+                <Typography variant="h6" className="font-semibold tracking-wide">
+                    {user?.name ?? 'Anonymous'}
+                </Typography>
             </div>
-            <ul className="flex flex-col gap-2">
-                <li className="hover:text-blue-500 cursor-pointer">Home</li>
-                <li className="hover:text-blue-500 cursor-pointer">Users</li>
-                <li className="hover:text-blue-500 cursor-pointer">Products</li>
-                <li className="hover:text-blue-500 cursor-pointer">Reports</li>
-            </ul>
+
+            <List>
+                <ListItem
+                    component="button"
+                    onClick={() => navigate('/')}
+                    className="hover:bg-gray-100 hover:text-black rounded"
+                >
+                    <ListItemIcon>
+                        <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                </ListItem>
+                <ListItem
+                    component="button"
+                    onClick={() => navigate('/')}
+                    className="hover:bg-gray-100 hover:text-black rounded"
+                >
+                    <ListItemIcon>
+                        <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Settings" />
+                </ListItem>
+                <ListItem
+                    component="button"
+                    onClick={() => navigate('/')}
+                    className="hover:bg-gray-100 rounded hover:text-black"
+                >
+                    <ListItemIcon>
+                        <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Log Out" />
+                </ListItem>
+            </List>
+
+            <div className="text-sm text-gray-500 text-center mt-10">&copy; 2025 Glätzle Dominik</div>
         </Card>
     );
 }
