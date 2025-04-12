@@ -15,13 +15,11 @@ export const account = new Account(client);
  * create appwrite user and save new subscription to appwrite database
  */
 export const createUser = async (user: User) => {
-    const { firstname, lastname, password, email, phone, regions } = user;
+    const { username, password, email, phone, regions } = user;
 
     try {
         // create new appwrite user
-        const newUser = await account.create(ID.unique(), email, password);
-
-        await account.deleteSessions(); // log out all sessions
+        const newUser = await account.create(ID.unique(), email, password, username);
 
         await account.createEmailPasswordSession(email, password!);
 
@@ -30,8 +28,7 @@ export const createUser = async (user: User) => {
         // create full database entry
         await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
             userId: newUser.$id,
-            firstname,
-            lastname,
+            username,
             phone,
             regions,
         });

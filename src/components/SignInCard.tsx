@@ -38,16 +38,14 @@ export default function SignInCard() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
+    const [username, setUsername] = useState('');
     const navigate = useNavigate();
 
     const [successMessageOpen, setSuccessMessageOpen] = useState(false);
     const [errors, setErrors] = useState({
         email: '',
         phone: '',
-        firstname: '',
-        lastname: '',
+        username: '',
         password: '',
     });
 
@@ -81,8 +79,7 @@ export default function SignInCard() {
 
         if (mode === 'signup') {
             const user = new User({
-                firstname: firstname,
-                lastname: lastname,
+                username: username,
                 email: email,
                 password: password,
                 phone: phone,
@@ -97,7 +94,7 @@ export default function SignInCard() {
     };
 
     const validateInputs = () => {
-        const newErrors: typeof errors = { email: '', phone: '', firstname: '', lastname: '', password: '' };
+        const newErrors: typeof errors = { email: '', phone: '', username: '', password: '' };
         let isValid = true;
 
         if (!email) {
@@ -114,13 +111,8 @@ export default function SignInCard() {
                 isValid = false;
             }
 
-            if (firstname.trim().length < 2) {
-                newErrors.firstname = 'Please enter a valid firstname.';
-                isValid = false;
-            }
-
-            if (lastname.trim().length < 2) {
-                newErrors.lastname = 'Please enter a valid lastname.';
+            if (username.trim().length < 2) {
+                newErrors.username = 'Please enter a valid username.'; // TODO: check for duplicated username!!
                 isValid = false;
             }
 
@@ -150,28 +142,13 @@ export default function SignInCard() {
                         <>
                             <FormControl>
                                 <TextField
-                                    error={!!errors.firstname}
-                                    helperText={errors.firstname}
-                                    id="firstname"
-                                    name="firstname"
-                                    value={firstname}
-                                    onChange={(e) => setFirstname(e.target.value)}
-                                    placeholder="Firstname"
-                                    autoComplete="given-name"
-                                    required
-                                    variant="outlined"
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <TextField
-                                    error={!!errors.lastname}
-                                    helperText={errors.lastname}
-                                    id="lastname"
-                                    name="lastname"
-                                    value={lastname}
-                                    onChange={(e) => setLastname(e.target.value)}
-                                    placeholder="Lastname"
-                                    autoComplete="family-name"
+                                    error={!!errors.username}
+                                    helperText={errors.username}
+                                    id="username"
+                                    name="username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="Username"
                                     required
                                     variant="outlined"
                                 />
