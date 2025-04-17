@@ -7,13 +7,15 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 
+// TODO: RegionDropdown und anhand von dem dann die cards rendern
+
 function Sidebar() {
     const { user } = useAuth();
     const navigate = useNavigate();
 
     return (
         <Card
-            className="w-80 h-[600px] p-6 shadow-lg rounded-lg mt-10 ml-10"
+            className="w-80 h-[900px] p-6 shadow-lg rounded-lg mt-10 ml-10"
             sx={{
                 backgroundColor: '#1e1e1e',
                 color: '#f5f5f5',
