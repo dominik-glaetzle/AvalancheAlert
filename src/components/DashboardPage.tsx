@@ -22,9 +22,16 @@ export default function DashboardPage() {
                     flexGrow: 1,
                 }}
             >
-                <AlertCard name={'Wetter'} />
-                <AlertCard name={'Schneehöhe'} />
-                <AlertCard name={'Lawinengefahr'} />
+                <AlertCard
+                    cardName={'Avalanche Details'}
+                    dangerLevel={'low'}
+                    type={'wet_snow'}
+                    size={'3'}
+                    publicationTime={'2025-04-17T15:00:00Z'}
+                    snowpackStability={'very_poor'}
+                    frequency={'few'}
+                    aspects={['NE', 'E', 'W', 'N', 'NW']}
+                />
             </Box>
         </Box>
     );
