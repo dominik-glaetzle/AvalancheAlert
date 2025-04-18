@@ -22,6 +22,7 @@ function Sidebar() {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                borderRadius: 5,
             }}
         >
             <div className="flex flex-col items-center gap-3">
