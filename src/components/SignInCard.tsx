@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import RegionDropdown from './RegionDropdown.tsx';
 import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
 import { AvalancheReportAPI } from '../api/avalancheReport.ts';
-import { createUser } from '../api/appwrite.ts';
+import { createUser, loginUser } from '../api/appwrite.ts';
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { User } from '../DTO/UserDTO.ts';
@@ -76,23 +76,35 @@ export default function SignInCard() {
         setFilteredReports(filtered);
     }, [selectedRegions, reports]);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!validateInputs()) return;
 
         if (mode === 'signup') {
             const user = new User({
-                username: username,
-                email: email,
-                password: password,
-                phone: phone,
+                username,
+                email,
+                password,
+                phone,
                 regions: selectedRegions,
             });
-            createUser(user)
-                .then(() => setSuccessMessageOpen(true))
-                .catch((error) => console.error('Error saving subscription:', error));
+
+            try {
+                await createUser(user);
+                setSuccessMessageOpen(true);
+            } catch (error) {
+                console.error('❌ Fehler bei Registrierung:', error);
+            }
         } else {
-            navigate('/dashboard');
+            const user = new User({ email, password });
+
+            try {
+                await loginUser(user);
+                navigate('/dashboard');
+            } catch (error) {
+                console.error('❌ Login failed:', error);
+                alert('Login failed: Check Username and Password and try again.'); // snackbar alert
+            }
         }
     };
 

@@ -4,7 +4,7 @@ export interface UserDTO {
     id?: string;
     email: string;
     password: string;
-    username: string;
+    username?: string;
     phone?: string;
     regions?: Region[];
 }
@@ -13,7 +13,7 @@ export class User implements UserDTO {
     id?: string;
     email: string;
     password: string;
-    username: string;
+    username?: string;
     phone?: string;
     regions?: Region[];
 
