@@ -1,12 +1,13 @@
 import './App.css';
 import Homepage from './pages/Homepage.tsx';
 import VerificationPage from './components/VerificationPage.tsx';
-import DashboardPage from './components/DashboardPage.tsx';
+import Dashboard from './pages/Dashboard.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 // @ts-ignore
 import { AnimatedBackground } from 'animated-backgrounds';
 
 import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from 'react-router-dom';
+import { DndContext } from '@dnd-kit/core';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -17,7 +18,9 @@ const router = createBrowserRouter(
                 path="/dashboard"
                 element={
                     <ProtectedRoute>
-                        <DashboardPage />
+                        <DndContext>
+                            <Dashboard />
+                        </DndContext>
                     </ProtectedRoute>
                 }
             />

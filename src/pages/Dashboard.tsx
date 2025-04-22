@@ -1,9 +1,9 @@
-import Sidebar from './Sidebar.tsx';
-import AvalancheCard from './AvalancheCard.tsx';
+import Sidebar from '../components//Sidebar.tsx';
+import AvalancheCard from '../components/AvalancheCard.tsx';
 import { Box } from '@mui/material';
-import RegionsCard from './RegionsCard.tsx';
+import RegionsCard from '../components/RegionsCard.tsx';
 
-export default function DashboardPage() {
+export default function Dashboard() {
     return (
         <Box
             sx={{
