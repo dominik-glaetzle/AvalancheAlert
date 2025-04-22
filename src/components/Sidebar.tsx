@@ -12,6 +12,12 @@ import { useNavigate } from 'react-router-dom';
 function Sidebar() {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { logout } = useAuth();
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/');
+    };
 
     return (
         <Card
@@ -55,7 +61,7 @@ function Sidebar() {
                 </ListItem>
                 <ListItem
                     component="button"
-                    onClick={() => navigate('/')}
+                    onClick={() => handleLogout()}
                     className="hover:bg-gray-100 rounded hover:text-black"
                 >
                     <ListItemIcon>

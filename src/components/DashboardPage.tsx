@@ -1,6 +1,7 @@
 import Sidebar from './Sidebar.tsx';
-import AlertCard from './AlertCard.tsx';
+import AvalancheCard from './AvalancheCard.tsx';
 import { Box } from '@mui/material';
+import RegionsCard from './RegionsCard.tsx';
 
 export default function DashboardPage() {
     return (
@@ -22,7 +23,7 @@ export default function DashboardPage() {
                     flexGrow: 1,
                 }}
             >
-                <AlertCard
+                <AvalancheCard
                     cardName={'Avalanche Details'}
                     dangerLevel={'low'}
                     type={'wet_snow'}
@@ -32,6 +33,7 @@ export default function DashboardPage() {
                     frequency={'few'}
                     aspects={['NE', 'E', 'W', 'N', 'NW']}
                 />
+                <RegionsCard />
             </Box>
         </Box>
     );

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { API_URL } from '../config/config';
-import { AvalancheReportDTO, AvalancheReport } from '../DTO/AvalancheReportDTO';
+import { AvalancheReport, AvalancheReportDTO } from '../DTO/AvalancheReportDTO';
 import { createAvalancheReportFromDTO } from '../factories/avalancheReportFactory';
+import { Region } from '../interfaces/Regions.ts';
 
 /**
  * Fetch latest Avalanche Reports
@@ -33,7 +34,7 @@ const fetchLatestAvalancheReportsFromAustria = async (): Promise<AvalancheReport
         }
 
         return response.data.bulletins
-            .map(createAvalancheReportFromDTO) // Create AvalancheReport instances
+            .map(createAvalancheReportFromDTO)
             .map(
                 (report) =>
                     new AvalancheReport({
@@ -41,13 +42,23 @@ const fetchLatestAvalancheReportsFromAustria = async (): Promise<AvalancheReport
                         regions: report.regions.filter((region) => region.regionID.startsWith('AT-')),
                     })
             )
-            .filter((report) => report.regions.length > 0); // Remove reports without AT regions
+            .filter((report) => report.regions.length > 0);
     } catch (error: any) {
         throw new Error(`Error fetching avalanche report: ${error.message}`);
     }
 };
 
+/**
+ * Extract all regions from a list of AvalancheReports
+ * @param reports Array of AvalancheReports
+ * @returns Array of all Region objects
+ */
+const fetchAvailableRegions = (reports: AvalancheReport[]): Region[] => {
+    return reports.flatMap((report) => report.regions);
+};
+
 export const AvalancheReportAPI = {
     fetchLatestAvalancheReports,
     fetchLatestAvalancheReportsFromAustria,
+    fetchAvailableRegions,
 };

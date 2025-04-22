@@ -23,7 +23,7 @@ interface AlertCardProps {
     aspects: string[];
 }
 
-export default function AlertCard({
+export default function AvalancheCard({
     cardName,
     dangerLevel,
     type,

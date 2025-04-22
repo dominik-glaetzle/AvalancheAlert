@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { account } from '../appwrite.ts'; // dein Appwrite Client
+import { account } from '../api/appwrite.ts';
 import { Alert, CircularProgress, Box } from '@mui/material';
 
 export default function VerificationPage() {

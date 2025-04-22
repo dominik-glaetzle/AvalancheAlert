@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { account } from '../appwrite';
+import { account } from '../api/appwrite';
 
 interface AuthContextType {
     user: any;
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const logout = async () => {
-        await account.deleteSession('current');
+        await account.deleteSessions();
         setUser(null);
     };
 
