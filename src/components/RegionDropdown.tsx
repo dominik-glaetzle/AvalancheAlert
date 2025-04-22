@@ -4,32 +4,31 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useRegionStore } from '../store/useRegionStore.ts';
+import { AvalancheReportAPI } from '../api/avalancheReport.ts';
+import { Region } from '../interfaces/Regions.ts';
 
 interface RegionDropdownProps {
     reports: AvalancheReport[];
-    onSelectionChange: (selected: string[]) => void;
+    onSelectionChange: (selected: Region[]) => void;
 }
 
 const RegionDropdown: React.FC<RegionDropdownProps> = ({ reports, onSelectionChange }) => {
-    const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
-    const [availableRegions, setAvailableRegions] = useState<{ name: string; regionID: string }[]>([]);
+    const [selectedRegions, setSelectedRegions] = useState<Region[]>([]);
+    const [availableRegions, setAvailableRegions] = useState<Region[]>([]);
+    const { setRegions } = useRegionStore();
 
-    const handleChange = (event: SelectChangeEvent<string[]>) => {
-        const selected = event.target.value as string[];
+    const handleChange = (event: SelectChangeEvent<Region[]>) => {
+        const selected = event.target.value as Region[];
         setSelectedRegions(selected);
         onSelectionChange(selected);
-    };
-    //console.log('selectedRegions', selectedRegions);
-
-    const extractRegionsFromReports = (reports: AvalancheReport[]) => {
-        const extractedRegions = reports.flatMap((report) => report.regions);
-        //console.log('Extracted Regions:', extractedRegions);
-        setAvailableRegions(extractedRegions);
     };
 
     useEffect(() => {
         if (reports.length > 0) {
-            extractRegionsFromReports(reports);
+            const regions = AvalancheReportAPI.fetchAvailableRegions(reports);
+            setAvailableRegions(regions);
+            setRegions(regions);
         }
     }, [reports]);
     return (
