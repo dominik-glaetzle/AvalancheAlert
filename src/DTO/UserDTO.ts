@@ -1,10 +1,12 @@
+import { Region } from '../interfaces/Regions.ts';
+
 export interface UserDTO {
     id?: string;
     email: string;
     password: string;
     username: string;
     phone?: string;
-    regions?: string[];
+    regions?: Region[];
 }
 
 export class User implements UserDTO {
@@ -13,7 +15,7 @@ export class User implements UserDTO {
     password: string;
     username: string;
     phone?: string;
-    regions?: string[];
+    regions?: Region[];
 
     constructor(data: UserDTO) {
         this.id = data.id;

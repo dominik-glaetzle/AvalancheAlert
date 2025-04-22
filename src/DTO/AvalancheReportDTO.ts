@@ -1,3 +1,5 @@
+import { Region } from '../interfaces/Regions.ts';
+
 /**
  * AvalancheReport Report DTO
  */
@@ -18,10 +20,7 @@ export interface AvalancheReportDTO {
             upperBound?: string;
         };
     }[];
-    regions: {
-        name: string;
-        regionID: string;
-    }[];
+    regions: Region[];
 }
 
 /**

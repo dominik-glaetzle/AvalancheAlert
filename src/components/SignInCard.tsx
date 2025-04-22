@@ -10,12 +10,13 @@ import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import RegionDropdown from './RegionDropdown.tsx';
 import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
-import { AvalancheReportAPI } from '../utilities/avalancheReportAPI.ts';
-import { createUser } from '../appwrite.ts';
+import { AvalancheReportAPI } from '../api/avalancheReport.ts';
+import { createUser } from '../api/appwrite.ts';
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { User } from '../DTO/UserDTO.ts';
 import { useNavigate } from 'react-router-dom';
+import { Region } from '../interfaces/Regions.ts';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -50,7 +51,7 @@ export default function SignInCard() {
     });
 
     const [reports, setReports] = useState<AvalancheReport[]>([]);
-    const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+    const [selectedRegions, setSelectedRegions] = useState<Region[]>([]);
     const [filteredReports, setFilteredReports] = useState<AvalancheReport[]>([]); // construct email from those
     console.log(filteredReports);
 
@@ -66,9 +67,11 @@ export default function SignInCard() {
         fetchData();
     }, []);
 
+    console.log('selected regions', selectedRegions);
+
     useEffect(() => {
         const filtered = reports.filter((report) =>
-            report.regions.some((region) => selectedRegions.includes(region.regionID))
+            report.regions.some((region) => selectedRegions.some((selected) => selected.regionID === region.regionID))
         );
         setFilteredReports(filtered);
     }, [selectedRegions, reports]);
