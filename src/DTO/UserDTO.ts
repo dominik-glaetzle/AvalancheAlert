@@ -1,28 +1,27 @@
+import { Region } from '../interfaces/Regions.ts';
+
 export interface UserDTO {
     id?: string;
     email: string;
     password: string;
-    firstname?: string;
-    lastname?: string;
+    username?: string;
     phone?: string;
-    regions?: string[];
+    regions?: Region[];
 }
 
 export class User implements UserDTO {
     id?: string;
     email: string;
     password: string;
-    firstname?: string;
-    lastname?: string;
+    username?: string;
     phone?: string;
-    regions?: string[];
+    regions?: Region[];
 
     constructor(data: UserDTO) {
         this.id = data.id;
         this.email = data.email;
         this.password = data.password;
-        this.firstname = data.firstname;
-        this.lastname = data.lastname;
+        this.username = data.username;
         this.phone = data.phone;
         this.regions = data.regions;
     }
@@ -32,8 +31,7 @@ export class User implements UserDTO {
             id: this.id,
             email: this.email,
             password: this.password,
-            firstname: this.firstname,
-            lastname: this.lastname,
+            username: this.username,
             phone: this.phone,
             regions: this.regions,
         };
