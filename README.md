@@ -1,50 +1,38 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Avalanche Alert
 
-Currently, two official plugins are available:
+### Copyright
+Copyright (C) Dominik Glätzle - All Rights Reserved All information contained herein is,
+and remains the property of the author. Unauthorized copying, sharing or using this file,
+via any medium is strictly prohibited unless prior written permission is obtained from the author.
+Proprietary and confidential. Written by Dominik Glätzle <dominik@glaetzle.io>, April 2025
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Technology Stack
+- Backend
+    - Appwrite
+    - Later on, I plan to handle the backend in Java on my own
 
-## Expanding the ESLint configuration
+- Frontend
+  - TypeScript
+  - React
+  - MUI Components
+  - TailwindCSS
+  - Vite
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Run Frontend
+Prerequisites:
+- Node.js >= 18
+- npm >= 9
 
-- Configure the top-level `parserOptions` property like this:
+The frontend can be installed and run with the following commands:
+1. `cd frontend`
+2. `npm install`
+3. `npm run dev`
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+It is advisable to open `package.json` as IDEA will recognize the `vite` commands and provide a run configuration.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+The project uses vite as a bundler, which enables hot module replacement and fast builds.
+This means you can work on the frontend and see the changes in the browser without having to reload the page.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+The application is accessible via [http://localhost:5173/](http://localhost:5173/).
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
