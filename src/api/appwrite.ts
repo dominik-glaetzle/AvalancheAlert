@@ -82,12 +82,21 @@ export const updateSubscribedRegions = async (regionIDs: string[]) => {
             throw new Error('User document not found');
         }
         const docId = result.documents[0].$id;
-        console.log('docId', docId);
 
         await database.updateDocument(DATABASE_ID, COLLECTION_ID, docId, {
             regions: regionIDs,
         });
     } catch (error: any) {
         console.error('❌ Error updating user regions:', error.message || error);
+    }
+};
+
+export const getPhoneNumber = async () => {
+    try {
+        const response = await database.listDocuments(DATABASE_ID, COLLECTION_ID);
+        return response.documents.flatMap((doc) => doc.phone);
+    } catch (error: any) {
+        console.error('❌ Error getting phone number:', error.message || error);
+        alert(error.message || error);
     }
 };

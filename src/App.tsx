@@ -3,6 +3,7 @@ import Homepage from './pages/Homepage.tsx';
 import VerificationPage from './components/VerificationPage.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
+import Settings from './pages/Settings.tsx';
 // @ts-ignore
 import { AnimatedBackground } from 'animated-backgrounds';
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
                     </ProtectedRoute>
                 }
             />
+            <Route path="/settings" element={<Settings />} />
         </>
     )
 );
