@@ -1,7 +1,6 @@
 import Sidebar from '../components//Sidebar.tsx';
 import AvalancheCard from '../components/AvalancheCard.tsx';
 import { Box } from '@mui/material';
-import RegionsCard from '../components/RegionsCard.tsx';
 
 export default function Dashboard() {
     return (
@@ -33,7 +32,6 @@ export default function Dashboard() {
                     frequency={'few'}
                     aspects={['NE', 'E', 'W', 'N', 'NW']}
                 />
-                <RegionsCard />
             </Box>
         </Box>
     );

@@ -41,7 +41,7 @@ function Sidebar() {
             <List>
                 <ListItem
                     component="button"
-                    onClick={() => navigate('/')}
+                    onClick={() => navigate('/dashboard')}
                     className="hover:bg-gray-100 hover:text-black rounded"
                 >
                     <ListItemIcon>
