@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { AvalancheReport } from '../DTO/AvalancheReportDTO.ts';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useRegionStore } from '../store/useRegionStore.ts';
 import { AvalancheReportAPI } from '../api/avalancheReport.ts';
 import { Region } from '../interfaces/Regions.ts';
+import { FormLabel } from '@mui/material';
 
 interface RegionDropdownProps {
     reports: AvalancheReport[];
@@ -33,7 +33,8 @@ const RegionDropdown: React.FC<RegionDropdownProps> = ({ reports, onSelectionCha
     }, [reports]);
     return (
         <FormControl>
-            <InputLabel id="region-select-label">Choose Regions</InputLabel>
+            <FormLabel>choose regions</FormLabel>
+            {/* <InputLabel id="region-select-label">choose regions</InputLabel> */}
             <Select
                 labelId="region-select-label"
                 id="region-select"

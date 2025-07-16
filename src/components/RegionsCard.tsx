@@ -86,16 +86,17 @@ export default function RegionsCard() {
     return (
         <Card
             sx={{
-                ml: 5,
+                ml: 10,
                 mt: 5,
                 width: 700,
                 height: 500,
                 p: 2,
                 borderRadius: 5,
-                backgroundColor: '#1e1e1e',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
                 color: '#fff',
                 display: 'flex',
                 flexDirection: 'column',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
             }}
         >
             <Typography variant="h6" fontWeight="bold" mb={0.1}>

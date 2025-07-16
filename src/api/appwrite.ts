@@ -15,28 +15,26 @@ export const account = new Account(client);
 /**
  * create appwrite user and save new subscription to appwrite database
  */
-export const createUser = async (user: User) => {
+export const createUser = async (user: User): Promise<void> => {
     const { username, password, email, phone, regions } = user;
 
     try {
-        try {
-            await account.deleteSessions();
-        } catch (_) {}
-
         const newUser = await account.create(ID.unique(), email, password, username);
         await account.createEmailPasswordSession(email, password);
         await account.createVerification(VERIFICATION_URL);
 
         await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
             userId: newUser.$id,
-            username,
             phone,
             regions,
         });
     } catch (error: any) {
-        console.error('❌ Error creating subscription:', error.message || error);
-        alert(error.message || error);
-        throw error;
+        if (error.code === 409) {
+            throw new Error('❌ Error: This email is already registered. Please log in or use another address.');
+        } else {
+            console.error('Error creating user: ', error.message || error);
+            throw error;
+        }
     }
 };
 
@@ -53,7 +51,6 @@ export const loginUser = async (user: User) => {
         await account.createEmailPasswordSession(email, password);
     } catch (error: any) {
         console.error('❌ Login failed:', error.message || error);
-        alert('Login failed: ' + (error.message || error));
         throw error;
     }
 };
@@ -93,10 +90,20 @@ export const updateSubscribedRegions = async (regionIDs: string[]) => {
 
 export const getPhoneNumber = async () => {
     try {
-        const response = await database.listDocuments(DATABASE_ID, COLLECTION_ID);
-        return response.documents.flatMap((doc) => doc.phone);
+        const currentUser = await account.get();
+        const response = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
+            Query.equal('userId', currentUser.$id),
+        ]);
+
+        if (response.documents.length > 0) {
+            return response.documents[0].phone;
+        } else {
+            console.warn('No user document found for this user');
+            return null;
+        }
     } catch (error: any) {
         console.error('❌ Error getting phone number:', error.message || error);
         alert(error.message || error);
+        return null;
     }
 };

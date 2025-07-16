@@ -58,11 +58,14 @@ export default function AvalancheCard({
                 height: 320,
                 p: 2,
                 borderRadius: 5,
-                backgroundColor: '#1e1e1e',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
                 color: '#fff',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
             }}
         >
             <Box display="flex" justifyContent="space-between" alignItems="center">

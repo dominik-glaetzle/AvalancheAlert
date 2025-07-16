@@ -43,6 +43,8 @@ export default function SignInCard() {
     const navigate = useNavigate();
 
     const [successMessageOpen, setSuccessMessageOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
     const [errors, setErrors] = useState({
         email: '',
         phone: '',
@@ -67,7 +69,7 @@ export default function SignInCard() {
         fetchData();
     }, []);
 
-    console.log('selected regions', selectedRegions);
+    // console.log('selected regions', selectedRegions);
 
     useEffect(() => {
         const filtered = reports.filter((report) =>
@@ -92,8 +94,9 @@ export default function SignInCard() {
             try {
                 await createUser(user);
                 setSuccessMessageOpen(true);
-            } catch (error) {
-                console.error('❌ Fehler bei Registrierung:', error);
+            } catch (error: any) {
+                setErrorMessage(error.message);
+                setErrorSnackbarOpen(true);
             }
         } else {
             const user = new User({ email, password });
@@ -103,7 +106,8 @@ export default function SignInCard() {
                 navigate('/dashboard');
             } catch (error) {
                 console.error('❌ Login failed:', error);
-                alert('Login failed: Check Username and Password and try again.'); // snackbar alert
+                setErrorMessage('Login failed: Check Username and Password and try again.');
+                setErrorSnackbarOpen(true);
             }
         }
     };
@@ -163,21 +167,20 @@ export default function SignInCard() {
                                     name="username"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    placeholder="Username"
+                                    placeholder="username"
                                     required
                                     variant="outlined"
                                 />
                             </FormControl>
                             <RegionDropdown reports={reports} onSelectionChange={setSelectedRegions} />
                             <FormControl>
-                                <FormLabel htmlFor="telephone">Phone</FormLabel>
                                 <TextField
                                     error={!!errors.phone}
                                     helperText={errors.phone}
                                     name="telephone"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    placeholder="+43-123-456"
+                                    placeholder="phone"
                                     type="telephone"
                                     id="telephone"
                                     required
@@ -186,7 +189,6 @@ export default function SignInCard() {
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel htmlFor="password">Create Password</FormLabel>
                                 <TextField
                                     error={!!errors.password}
                                     helperText={errors.password}
@@ -195,7 +197,7 @@ export default function SignInCard() {
                                     name="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="••••••••"
+                                    placeholder="password"
                                     autoComplete="current-password"
                                     required
                                     fullWidth
@@ -206,7 +208,6 @@ export default function SignInCard() {
                     )}
 
                     <FormControl>
-                        <FormLabel htmlFor="email">Email</FormLabel>
                         <TextField
                             error={!!errors.email}
                             helperText={errors.email}
@@ -215,7 +216,7 @@ export default function SignInCard() {
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="your@email.com"
+                            placeholder="email"
                             autoComplete="email"
                             required
                             fullWidth
@@ -256,8 +257,18 @@ export default function SignInCard() {
                 autoHideDuration={2000}
                 onClose={() => setSuccessMessageOpen(false)}
             >
-                <Alert severity="info" sx={{ width: '100%' }}>
-                    Successfully subscribed!
+                <Alert severity="success" sx={{ width: '100%' }}>
+                    Successfully subscribed! Check your Email!
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                open={errorSnackbarOpen}
+                autoHideDuration={4000}
+                onClose={() => setErrorSnackbarOpen(false)}
+            >
+                <Alert onClose={() => setErrorSnackbarOpen(false)} severity="error" sx={{ width: '100%' }}>
+                    {errorMessage}
                 </Alert>
             </Snackbar>
         </>
