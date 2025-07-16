@@ -4,9 +4,6 @@ import VerificationPage from './components/VerificationPage.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import Settings from './pages/Settings.tsx';
-// @ts-ignore
-import { AnimatedBackground } from 'animated-backgrounds';
-
 import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from 'react-router-dom';
 import { DndContext } from '@dnd-kit/core';
 
@@ -33,7 +30,6 @@ const router = createBrowserRouter(
 function App() {
     return (
         <>
-            <AnimatedBackground animationName="cosmicDust" />
             <RouterProvider router={router} />
         </>
     );

@@ -29,7 +29,6 @@ export const createUser = async (user: User) => {
 
         await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
             userId: newUser.$id,
-            username,
             phone,
             regions,
         });
