@@ -4,35 +4,37 @@ import { Box } from '@mui/material';
 
 export default function Dashboard() {
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                minHeight: '100vh',
-                padding: 2,
-                gap: 2,
-            }}
-        >
-            <Sidebar />
-
+        <div style={{ backgroundColor: '#1e1e1e', color: '#fff', minHeight: '100vh' }}>
             <Box
                 sx={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                    gap: 3,
-                    flexGrow: 1,
+                    display: 'flex',
+                    minHeight: '100vh',
+                    padding: 2,
+                    gap: 2,
                 }}
             >
-                <AvalancheCard
-                    cardName={'Avalanche Details'}
-                    dangerLevel={'low'}
-                    type={'wet_snow'}
-                    size={'3'}
-                    publicationTime={'2025-04-17T15:00:00Z'}
-                    snowpackStability={'very_poor'}
-                    frequency={'few'}
-                    aspects={['NE', 'E', 'W', 'N', 'NW']}
-                />
+                <Sidebar />
+
+                <Box
+                    sx={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                        gap: 3,
+                        flexGrow: 1,
+                    }}
+                >
+                    <AvalancheCard
+                        cardName={'Avalanche Details'}
+                        dangerLevel={'low'}
+                        type={'wet_snow'}
+                        size={'3'}
+                        publicationTime={'2025-04-17T15:00:00Z'}
+                        snowpackStability={'very_poor'}
+                        frequency={'few'}
+                        aspects={['NE', 'E', 'W', 'N', 'NW']}
+                    />
+                </Box>
             </Box>
-        </Box>
+        </div>
     );
 }

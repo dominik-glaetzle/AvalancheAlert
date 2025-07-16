@@ -23,12 +23,13 @@ function Sidebar() {
         <Card
             className="w-80 h-[900px] p-6 shadow-lg rounded-lg mt-10 ml-10"
             sx={{
-                backgroundColor: '#1e1e1e',
+                backgroundColor: 'rgba(31, 41, 55, 0.5)',
                 color: '#f5f5f5',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 borderRadius: 5,
+                border: '1px solid rgba(255, 255, 255, 0.1)',
             }}
         >
             <div className="flex flex-col items-center gap-3">
