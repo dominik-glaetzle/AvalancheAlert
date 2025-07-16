@@ -1,6 +1,6 @@
 import './App.css';
 import Homepage from './pages/Homepage.tsx';
-import VerificationPage from './components/VerificationPage.tsx';
+import VerificationPage from './pages/VerificationPage.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import Settings from './pages/Settings.tsx';
